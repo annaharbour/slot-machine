@@ -6,7 +6,7 @@ function App() {
   const s2 = ' 👻 ';
   const s3 = ' 💀 ';
 
-  return (
+    return (
     <div className="App">
       <Machine s1={s1} s2={s2} s3={s3} /> 
     </div>

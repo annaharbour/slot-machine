@@ -1,91 +1,63 @@
-// import React, {useState, useEffect} from 'react'
-
-// function Machine(props) {
-//     const {s1, s2, s3} = props;
-//     const [a, setA] = useState(s1);
-//     const [b, setB] = useState(s2);
-//     const [c, setC] = useState(s3);
-//     const [winner, setWinner] = useState(false);
-//     const [message, setMessage] = useState('Test your luck... if you dare.');
-//     const [buttonText, setButtonText] = useState('Start Game');
-
-//     function getRandomMessage(){
-//         const messages = [`Don't hate the coder, hate the game`, `You're great at losing`, `13 years of bad luck`];
-//         return messages[Math.floor(Math.random() * messages.length)];
-//     }
-
-//     function getRandomValue(){
-//         const randomIndex = Math.floor(Math.random() * 3)
-//         return [s1, s2, s3][randomIndex];
-//     }
-
-//     function onClick(){
-//         setA(getRandomValue());
-//         setB(getRandomValue());
-//         setC(getRandomValue());
-
-//         const interval = setInterval(() => {
-//             setA(getRandomValue());
-//             setB(getRandomValue());
-//             setC(getRandomValue());
-//           }, 100);
-        
-//           setTimeout(() => {
-//             clearInterval(interval);
-//             if (a === b && b === c) {
-//                 setWinner(true);
-//                 setButtonText('Play again');
-//               } else {
-//                 setWinner(false);
-//                 setButtonText('Try again');
-//                 setMessage(getRandomMessage());
-//               }  
-//           }, 3000);
-          
-          
-//     }
-      
-//     return (
-//     <div className='slot-machine'>
-//         <h1>Slot Machine</h1>
-//         <p>{winner ?  'You win!' : message}</p>
-//         <div className='slots'>
-//             <div className='slot'>{a}</div>
-//             <div className='slot'>{b}</div>
-//             <div className='slot'>{c}</div>
-//             </div>
-//         <button onClick={onClick}>{buttonText}</button>
-//     </div>
-//   )
-// }
-
-// export default Machine
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 function Machine(props) {
-  const { s1, s2, s3 } = props;
+  // Slots / Winner
+  const { symbols } = props;
   const [a, setA] = useState('');
   const [b, setB] = useState('');
   const [c, setC] = useState('');
   const [winner, setWinner] = useState(false);
-
+  const [message, setMessage] = useState('Try your luck');
+  const [buttonText, setButtonText] = useState('Start game');
 
   function getRandomValue() {
-    const randomIndex = Math.floor(Math.random() * 3);
-    return [s1, s2, s3][randomIndex];
+    const randomIndex = Math.floor(Math.random() * symbols.length);
+    return symbols[randomIndex];
   }
 
-  function checkWin() {
-    if (a === b && b === c) {
+  function getRandomMessage(){
+    const messages = [
+      "The slot machine ghouls have claimed another victim.",
+      "The mummies have wrapped up your winnings – try again!",
+      "Your luck is as elusive as a shadow in the moonlight.",
+      "The zombies have eaten your chances of winning.",
+      "You've been tricked by the mischievous spirits of Halloween.",
+      "The werewolves howl in delight as you lose another round.",
+      "Beware of the slot machine's haunted graveyard – it's spookier than you thought.",
+      "You've been entangled in the spider's web of losing spins.",
+      "Your winning hopes have vanished into thin air like a ghost.",
+      "Oops, your luck ran out like a black cat on Friday the 13th!",
+      "No treats for you this time, only tricks!",
+      "Your spins are as haunted as a ghostly graveyard.",
+      "Looks like you've been cursed by the slot machine spirits.",
+      "You've been out-spooked by the slot machine monsters.",
+      "The witches have cast a losing spell on your spins.",
+      "Your luck is as invisible as a phantom in the night.",
+      "The bats have flown away with your winning hopes.",
+      "Time to regroup and vanquish the losing demons!",
+      "Better luck next spin – even Dracula had off days."
+  ]
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  const checkWin = useCallback(() => {
+    if (a === '' || b === '' || c === '') {
+      setWinner(false);
+      setMessage('Try your luck');
+    } else if (a === b && b === c) {
       setWinner(true);
+      setMessage('You won!');
+      setButtonText('Play again?')
     } else {
       setWinner(false);
+      setMessage(getRandomMessage());
+      setButtonText('Try again?');
     }
-  }
+  }, [a, b, c]);
+
   useEffect(() => {
     checkWin();
-  }, [a, b, c]);
+  }, [checkWin]);
 
   function onClick() {
     setA('');
@@ -100,15 +72,17 @@ function Machine(props) {
   }
 
   return (
-    <div className="slot-machine">
+    <div className="section">
       <h1>Slot Machine</h1>
-      <p>{winner ? 'You win!' : 'You lose'}</p>
+      <p className='message'>{message}</p>
+      <div className='score'>
+      </div>
       <div className="slots">
         <div className="slot">{a}</div>
         <div className="slot">{b}</div>
         <div className="slot">{c}</div>
       </div>
-      <button onClick={onClick}>{winner ? 'Play again' : 'Try your luck'}</button>
+      <button onClick={onClick}>{buttonText}</button>
     </div>
   );
 }

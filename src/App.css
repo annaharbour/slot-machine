@@ -8,18 +8,64 @@ body {
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
+  margin: auto;
   background-color: #333;
 }
 
-.slot-machine {
+.section {
   text-align: center;
   width: 20rem;
+  height: 20rem;
   background-color: #FF8257;
   padding: 1rem;
   border-radius: 5%;
   box-shadow: .1rem .1rem .1rem .1rem black;
+  display: inline-block;
 }
+
+.control-bar {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 1rem;
+  color: #FF8257;
+  background-color: black;
+  border-bottom: .1px solid #333;
+}
+
+
+ input {
+  height: 1rem;
+  width: 50%;
+  padding: .2rem;
+  border-radius: 5px;
+  font-style: inherit;
+  border: none;
+  outline: none;
+}
+
+ input:focus {
+  border: .1rem solid #333;
+  outline: none;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.message {
+  height: 4rem;
+}
+
+.slots {
+  height: 5rem;
+}
+
 
 .slot {
   display: inline-block;
@@ -30,14 +76,10 @@ body {
   background-color: black;
 }
 
-h1 {
-  font-size: 2rem;
-  color: #333;
-}
-
 button {
+  margin: 1rem;
   padding: .5rem;
-  border-radius: 5%;
+  border-radius: 5px;
   background-color: rebeccapurple;
   border: none;
   box-shadow: .1rem .1rem .1rem .1rem black;

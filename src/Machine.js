@@ -9,6 +9,8 @@ function Machine(props) {
   const [winner, setWinner] = useState(false);
   const [message, setMessage] = useState('Try your luck');
   const [buttonText, setButtonText] = useState('Start game');
+  const [jackpot, setJackpot] = useState(1000)
+  const [score, setScore] = useState(100)
 
   function getRandomValue() {
     const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -40,6 +42,14 @@ function Machine(props) {
     return messages[Math.floor(Math.random() * messages.length)];
   }
 
+  function resetGame() {
+    setScore(100);
+    setJackpot(1000);
+    setWinner(false);
+    setMessage('You ran out of candy! Want me to stake you for another game?');
+    setButtonText('Start game');
+  }
+
   const checkWin = useCallback(() => {
     if (a === '' || b === '' || c === '') {
       setWinner(false);
@@ -47,11 +57,23 @@ function Machine(props) {
     } else if (a === b && b === c) {
       setWinner(true);
       setMessage('You won!');
-      setButtonText('Play again?')
+      setButtonText('Play again?');
+      setScore(jackpot)
+      
+    } else if (a === b || b === c || a === c) {
+      setWinner(false);
+      setMessage(`Nice! You're not a total loser.`);
+      setButtonText('Play again?');
+      setScore(score + 10)
     } else {
       setWinner(false);
       setMessage(getRandomMessage());
       setButtonText('Try again?');
+      setJackpot(jackpot + 10);
+      setScore(score - 10)
+      if (score <= 0) {
+        resetGame()
+      }
     }
   }, [a, b, c]);
 
@@ -68,15 +90,17 @@ function Machine(props) {
     setA(getRandomValue());
     setB(getRandomValue());
     setC(getRandomValue());
-
   }
 
   return (
     <div>
       <div className="section">
         <p className='message'>{message}</p>
+        <div className='jackpot'>
+          Jackpot: {jackpot}
+        </div>
         <div className='score'>
-          {/* Score */}
+          There are {score} pieces of candy in your bucket!
         </div>
         <div className="slots">
           <div className="slot">{a}</div>

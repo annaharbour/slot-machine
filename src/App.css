@@ -23,6 +23,7 @@ body {
 }
 
 .section {
+  margin: auto;
   text-align: center;
   width: 20rem;
   height: 20rem;
@@ -62,6 +63,12 @@ body {
  input:focus {
   border: .1rem solid #333;
   outline: none;
+}
+
+.error-message {
+  color: white;
+  font-style: italic;
+  font-size: .8rem;
 }
 
 @keyframes pulsate {

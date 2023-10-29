@@ -76,6 +76,7 @@ function Machine(props) {
       <div className="section">
         <p className='message'>{message}</p>
         <div className='score'>
+          {/* Score */}
         </div>
         <div className="slots">
           <div className="slot">{a}</div>

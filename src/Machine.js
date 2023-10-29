@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 function Machine(props) {
   // Slots / Winner
-  const { symbols } = props;
+  const symbols = ['🎃', '👻', '💀', '🦇', '🕷️','🧙‍♀️', '🧛', '🧟‍♂️','🍬','🤡','🔮','🪦'];
   const [a, setA] = useState('');
   const [b, setB] = useState('');
   const [c, setC] = useState('');
@@ -72,17 +72,18 @@ function Machine(props) {
   }
 
   return (
-    <div className="section">
-      <h1>Slot Machine</h1>
-      <p className='message'>{message}</p>
-      <div className='score'>
+    <div>
+      <div className="section">
+        <p className='message'>{message}</p>
+        <div className='score'>
+        </div>
+        <div className="slots">
+          <div className="slot">{a}</div>
+          <div className="slot">{b}</div>
+          <div className="slot">{c}</div>
+        </div>
+        <button onClick={onClick}>{buttonText}</button>
       </div>
-      <div className="slots">
-        <div className="slot">{a}</div>
-        <div className="slot">{b}</div>
-        <div className="slot">{c}</div>
-      </div>
-      <button onClick={onClick}>{buttonText}</button>
     </div>
   );
 }

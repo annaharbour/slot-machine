@@ -44,28 +44,25 @@ export const SignUp = () => {
 
   return (
     <div className='section'>
-        <h1>Sign Up</h1>
+        <h2>Sign Up</h2>
         <form onSubmit={handleSubmit}>
-            <label htmlFor='email'>Email</label>
             <input type='email'
                    name="email"
                    value={email}
                    onChange={handleChange}
-                   placeholder='Your email'
+                   placeholder='Email'
             />
-            <label htmlFor='username'>Username</label>
             <input type="username"
                    name="username"
                    value={username}
                    onChange={handleChange}
-                   placeholder='Your username'
+                   placeholder='Username'
             />
-            <label htmlFor='password'>Password</label>
             <input type="password"
                    name="password"
                    value={password}
                    onChange={handleChange}
-                   placeholder="Your password"
+                   placeholder="Password"
             />
             <button className="signin-signup" type="submit">Submit</button>
         </form>

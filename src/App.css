@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Neonderthaw&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
 * {
-  font-size: 1.5rem;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Tilt Neon', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 body {
@@ -10,37 +15,43 @@ body {
   justify-content: center;
   align-items: center; 
   margin: auto;
-  background-color: #333;
+  background-color: rgb(51, 51, 51);
+  background-image: url(/public/images/brick-wall.jpg);
+  box-shadow: 0 0 10px 10px black inset;
+  background-size: cover;
+  position: fixed;
 }
 
 .section {
   text-align: center;
   width: 20rem;
   height: 20rem;
-  background-color: #FF8257;
   padding: 1rem;
-  border-radius: 5%;
+  border-radius: 5px;
+  background-color: rgba(14, 13, 13, 0.7);
   box-shadow: .1rem .1rem .1rem .1rem black;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.control-bar {
-  margin: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5rem;
-  padding: 1rem;
-  color: #FF8257;
-  background-color: black;
-  border-bottom: .1px solid #333;
+.section form {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10%;
 }
 
+.section span {
+  color: white;
+}
 
- input {
-  height: 1rem;
-  width: 50%;
+.section input {
+  height: 1.5rem;
+  width: 80%;
+  font-size: 1rem;
   padding: .2rem;
   border-radius: 5px;
   font-style: inherit;
@@ -53,9 +64,113 @@ body {
   outline: none;
 }
 
+@keyframes pulsate {
+  100% {
+    /* Larger blur radius */
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #f09,
+      0 0 80px #f09,
+      0 0 90px #f09,
+      0 0 100px #f09,
+      0 0 150px #f09;
+  }
+ 0% {
+    /* A slightly smaller blur radius */
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px #fff,
+      0 0 18px #fff,
+      0 0 38px #f09,
+      0 0 73px #f09,
+      0 0 80px #f09,
+      0 0 94px #f09,
+      0 0 140px #f09;
+  }
+}
+
+
+/* Flickering animation */
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #bc13fe,
+      0 0 80px #bc13fe,
+      0 0 90px #bc13fe,
+      0 0 100px #bc13fe,
+      0 0 150px #bc13fe;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }    
+}
+
 h1 {
-  font-size: 2rem;
-  color: #333;
+  margin: 5rem;
+  font-family: 'Neonderthaw', cursive;
+  font-size: 3rem;
+  text-align: center;
+  border: 0.2rem solid #fff;
+  border-radius: 2rem;
+  padding: 1rem;
+  color: #bc13fe;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #bc13fe,
+      0 0 82px #bc13fe,
+      0 0 92px #bc13fe,
+      0 0 102px #bc13fe;
+  animation: pulsate 0.11s ease-in-out infinite alternate;    
+  box-shadow: 0 0 .2rem #fff,
+              0 0 .2rem #fff,
+              0 0 2rem #bc13fe,
+              0 0 0.8rem #bc13fe,
+              0 0 2.8rem #bc13fe,
+              inset 0 0 1.3rem #bc13fe;
+}
+
+h1 span {
+  animation: flicker 1.5s infinite alternate;   
+  font-family: 'Neonderthaw', cursive;  
+}
+
+span a {
+  color: #bc13fe;
+  animation: flicker 1.5s infinite alternate;   
+}
+
+h2 {
+  color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+}
+
+
+.control-bar {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 1rem;
+  color: #FF8257;
+  background-color: black;
+  border-bottom: .1px solid #333;
 }
 
 .message {
@@ -78,14 +193,20 @@ h1 {
 
 button {
   margin: 1rem;
-  padding: .5rem;
+  padding: .2rem;
   border-radius: 5px;
-  background-color: rebeccapurple;
+  background-color: #bc13fe;
   border: none;
   box-shadow: .1rem .1rem .1rem .1rem black;
   color: white;
   cursor: pointer;
-  width: 10rem;
+  width: 50%;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: rgba(188, 19, 254, .9);
+
 }
 
 button:active {

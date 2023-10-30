@@ -1,0 +1,41 @@
+const express = require('express');
+const router = express.Router();
+const Jackpot = require('../Models/JackpotModel');
+// JackpotController.js
+
+// Get the current jackpot value
+exports.Jackpot = async (req, res) => {
+  try {
+    const jackpot = await Jackpot.findOne();
+    res.json({ value: jackpot.value });
+  } catch (error) {
+    res.status(500).json({ error: 'Error getting jackpot value.' });
+  }
+};
+
+// Add to the jackpot value
+exports.IncreaseJackpot = async (req, res) => {
+  try {
+    const { amountToAdd } = req.body;
+    const jackpot = await Jackpot.findOne();
+    jackpot.value += amountToAdd;
+    await jackpot.save();
+    res.json({ value: jackpot.value });
+  } catch (error) {
+    console.error('Error adding to the jackpot value:', error); // Log the error
+
+    res.status(500).json({ error: 'Error adding to the jackpot value.' });
+  }
+};
+
+// Reset the jackpot to its baseline value
+exports.Reset = async (req, res) => {
+  try {
+    const jackpot = await Jackpot.findOne();
+    jackpot.value = 1000; // Set your baseline jackpot value here
+    await jackpot.save();
+    res.json({ value: jackpot.value });
+  } catch (error) {
+    res.status(500).json({ error: 'Error resetting the jackpot.' });
+  }
+};

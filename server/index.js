@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
 const authRoute = require("./routes/AuthRoute");
+const JackpotRoute = require('./routes/JackpotRoute')
 const { MONGO_URL, PORT } = process.env;
 
 mongoose
@@ -31,4 +32,4 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/", authRoute);
+app.use("/", authRoute, JackpotRoute);

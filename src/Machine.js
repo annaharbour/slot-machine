@@ -10,7 +10,46 @@ function Machine(props) {
   const [message, setMessage] = useState('Try your luck');
   const [buttonText, setButtonText] = useState('Start game');
   const [jackpot, setJackpot] = useState(1000)
+  const [playerBalance, setPlayerBalance] = useState(100)
   const [score, setScore] = useState(100)
+
+  useEffect(() => {
+    // Fetch the current jackpot value from the backend
+    fetch('/jackpot')
+      .then((response) => response.json())
+      .then((data) => setJackpot(data.value))
+      .catch((error) => console.error('Error fetching jackpot value:', error));
+  }, []);
+
+function handleWin() {
+  // Calculate the player's winnings (e.g., based on the jackpot value and their bet)
+  const winnings = jackpot;
+
+  // Make an API call to update the player's balance
+  fetch('/updateBalance', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId: 'user_id_here', // Replace with the user's ID from your authentication system
+      winnings, // Pass the initialized 'winnings' to the API call
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Update the player's balance in the UI
+      setPlayerBalance(data.balance);
+    })
+    .catch((error) => console.error('Error updating player balance:', error));
+
+  // Make an API call to reset the jackpot
+  fetch('/reset', { method: 'POST' })
+    .then((response) => response.json())
+    .then((data) => setJackpot(data.value))
+    .catch((error) => console.error('Error resetting the jackpot:', error));
+}
+
 
   function getRandomValue() {
     const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -59,6 +98,7 @@ function Machine(props) {
       setMessage('You won!');
       setButtonText('Play again?');
       setScore(jackpot)
+      handleWin()
       
     } else if (a === b || b === c || a === c) {
       setWinner(false);
@@ -101,6 +141,9 @@ function Machine(props) {
         </div>
         <div className='score'>
           There are {score} pieces of candy in your bucket!
+        </div>
+        <div className='player-balance'>
+        Your Balance: {playerBalance} pieces of candy
         </div>
         <div className="slots">
           <div className="slot">{a}</div>

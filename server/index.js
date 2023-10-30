@@ -6,6 +6,7 @@ const app = express();
 require("dotenv").config();
 const authRoute = require("./routes/AuthRoute");
 const JackpotRoute = require('./routes/JackpotRoute')
+const Balance = require('./routes/Balance')
 const { MONGO_URL, PORT } = process.env;
 
 mongoose
@@ -32,4 +33,4 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/", authRoute, JackpotRoute);
+app.use("/", authRoute, JackpotRoute, Balance);

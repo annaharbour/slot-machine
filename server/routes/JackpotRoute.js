@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { Jackpot, IncreaseJackpot, Reset } = require("../controllers/JackpotController");
+const { Jackpot, IncreaseJackpot, Reset, DecreaseJackpot } = require("../controllers/JackpotController");
 
-router.post("/Jackpot", Jackpot);
-router.post("/IncreaseJackpot", IncreaseJackpot);
-router.post("/Reset", Reset);
+router.get("/jackpot", Jackpot);
+router.post("/increasejackpot", IncreaseJackpot);
+router.post("/decreasejackpot", DecreaseJackpot);
+router.post("/reset", Reset);
 
-module.exports = router; // Export the router
+module.exports = router; 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-function Machine(props) {
+function Machine({user, userId, ...props}) {
   // Slots / Winner
   const symbols = ['🎃', '👻', '💀', '🦇', '🕷️','🧙‍♀️', '🧛', '🧟‍♂️','🍬','🤡','🔮','🪦'];
   const [a, setA] = useState('');
@@ -11,45 +11,16 @@ function Machine(props) {
   const [buttonText, setButtonText] = useState('Start game');
   const [jackpot, setJackpot] = useState(1000)
   const [playerBalance, setPlayerBalance] = useState(100)
-  const [score, setScore] = useState(100)
 
   useEffect(() => {
     // Fetch the current jackpot value from the backend
-    fetch('/jackpot')
+    fetch('http://localhost:4000/jackpot')
       .then((response) => response.json())
       .then((data) => setJackpot(data.value))
       .catch((error) => console.error('Error fetching jackpot value:', error));
-  }, []);
 
-function handleWin() {
-  // Calculate the player's winnings (e.g., based on the jackpot value and their bet)
-  const winnings = jackpot;
-
-  // Make an API call to update the player's balance
-  fetch('/updateBalance', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      userId: 'user_id_here', // Replace with the user's ID from your authentication system
-      winnings, // Pass the initialized 'winnings' to the API call
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Update the player's balance in the UI
-      setPlayerBalance(data.balance);
-    })
-    .catch((error) => console.error('Error updating player balance:', error));
-
-  // Make an API call to reset the jackpot
-  fetch('/reset', { method: 'POST' })
-    .then((response) => response.json())
-    .then((data) => setJackpot(data.value))
-    .catch((error) => console.error('Error resetting the jackpot:', error));
-}
-
+  }, [jackpot]); 
+ 
 
   function getRandomValue() {
     const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -82,8 +53,8 @@ function handleWin() {
   }
 
   function resetGame() {
-    setScore(100);
     setJackpot(1000);
+    setPlayerBalance(500)
     setWinner(false);
     setMessage('You ran out of candy! Want me to stake you for another game?');
     setButtonText('Start game');
@@ -94,29 +65,77 @@ function handleWin() {
       setWinner(false);
       setMessage('Try your luck');
     } else if (a === b && b === c) {
-      setWinner(true);
-      setMessage('You won!');
-      setButtonText('Play again?');
-      setScore(jackpot)
-      handleWin()
-      
+      handleWin(10);
     } else if (a === b || b === c || a === c) {
-      setWinner(false);
-      setMessage(`Nice! You're not a total loser.`);
-      setButtonText('Play again?');
-      setScore(score + 10)
+      handleWin(10);
     } else {
       setWinner(false);
       setMessage(getRandomMessage());
       setButtonText('Try again?');
-      setJackpot(jackpot + 10);
-      setScore(score - 10)
-      if (score <= 0) {
+      updateJackpot(10);
+      updateScore(-10);
+      if (playerBalance >= 0){
         resetGame()
       }
     }
   }, [a, b, c]);
+  
+  function handleWin(winnings) {
+    setWinner(true);
+    setMessage('You won!');
+    setButtonText('Play again?');
+    updateScore(winnings);
+  }
+  
+  function updateJackpot(delta) {
+    setJackpot((prevJackpot) => prevJackpot + delta);
+  
+    fetch('http://localhost:4000/updatejackpot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ delta }), 
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json(); 
+        } else {
+          throw new Error('Failed to update jackpot on the backend');
+        }
+      })
+      .then((data) => {
+        setJackpot(data.value);
+      })
+      .catch((error) => console.error('Error updating jackpot on the backend:', error));
+  }
+    
+  
+  function updateScore(delta) {
+    // Update the score
 
+    setPlayerBalance((prevBalance) => prevBalance + delta);
+
+
+    // Make an API call to update the player's balance
+    fetch('http://localhost:4000/updateBalance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user,
+        winnings: delta,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the player's balance in the UI
+        setPlayerBalance(data.balance);
+      })
+      .catch((error) => console.error('Error updating player balance:', error));
+  }
+  
   useEffect(() => {
     checkWin();
   }, [checkWin]);
@@ -140,11 +159,9 @@ function handleWin() {
           Jackpot: {jackpot}
         </div>
         <div className='score'>
-          There are {score} pieces of candy in your bucket!
+          There are {playerBalance} pieces of candy in your bucket!
         </div>
-        <div className='player-balance'>
-        Your Balance: {playerBalance} pieces of candy
-        </div>
+        
         <div className="slots">
           <div className="slot">{a}</div>
           <div className="slot">{b}</div>

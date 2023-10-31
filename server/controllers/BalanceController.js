@@ -1,9 +1,8 @@
-const express = require('express');
 const User = require('../Models/UserModel')
 
 exports.updateBalance = async (req, res) => {
     try {
-      const { userId, winnings } = req.body;
+      const { userId, delta } = req.body;
   
       // Find the user by their ID
       const user = await User.findById(userId);
@@ -13,7 +12,7 @@ exports.updateBalance = async (req, res) => {
       }
   
       // Update the user's balance
-      user.balance += winnings;
+      user.balance += delta;
   
       // Save the updated user record
       await user.save();
@@ -23,3 +22,14 @@ exports.updateBalance = async (req, res) => {
       res.status(500).json({ error: 'Error updating user balance' });
     }
   };
+
+     
+exports.getBalance = async (req, res) => {
+  try {
+    const user = req.user; 
+    const balance = await User.find({ balance });
+    res.json(balance);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve tasks" });
+  }
+};

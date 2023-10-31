@@ -9,6 +9,7 @@ export const Home = () => {
   const [cookies, removeCookie] = useCookies();
   const [username, setUsername] = useState('');
 
+
   const Logout = () => {
     removeCookie('token');
     navigate('/signup');
@@ -24,8 +25,8 @@ export const Home = () => {
         {},
         { withCredentials: true }
       );
-      const { status, user } = data;
-      setUsername(user);
+      const { status, username } = data;
+      setUsername(username);
       return status
         ? 
         <Machine username={username}/>
@@ -43,3 +44,4 @@ export const Home = () => {
     </div>
   );
 };
+

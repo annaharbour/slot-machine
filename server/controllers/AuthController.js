@@ -13,7 +13,8 @@ module.exports.Signup = async (req, res, next) => {
             return res.json({message: "User already exists"});
         }
         const user = await User.create({email, password, username, createdAt});
-        const token = createSecretToken(user._id);
+        const userId = user._id; 
+        const token = createSecretToken(userId);
         res.cookie("token", token, {
             withCredentials: true,
             httpOnly: false
@@ -42,13 +43,14 @@ module.exports.Login = async (req, res, next) => {
       if (!auth) {
         return res.json({message:'Incorrect password or email' }) 
       }
-       const token = createSecretToken(user._id);
-       res.cookie("token", token, {
+      const userId = user._id; 
+      const token = createSecretToken(userId);
+      res.cookie("token", token, {
          withCredentials: true,
          httpOnly: false,
-       });
-       res.status(201).json({ message: "User logged in successfully", success: true });
-       next()
+      });
+      res.status(201).json({ message: "User logged in successfully", success: true });
+      next()
     } catch (error) {
       console.error(error);
     }

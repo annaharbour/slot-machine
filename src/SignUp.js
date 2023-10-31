@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
 export const SignUp = () => {
+    
     const [errorMessage, setErrorMessage] = useState(''); 
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({

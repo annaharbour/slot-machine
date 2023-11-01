@@ -24,12 +24,3 @@ exports.updateBalance = async (req, res) => {
   };
 
      
-exports.getBalance = async (req, res) => {
-  try {
-    const user = req.user; 
-    const balance = await User.find({ balance });
-    res.json(balance);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve tasks" });
-  }
-};

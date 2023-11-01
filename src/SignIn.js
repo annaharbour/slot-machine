@@ -26,7 +26,6 @@ export const SignIn = () => {
             },
             {withCredentials: true}
             );
-            console.log(data);
             const {success, message} = data;
             if(success){
             setTimeout(() => {

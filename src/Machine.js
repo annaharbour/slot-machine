@@ -110,12 +110,11 @@ function Machine({username, userId, ...props}) {
       .catch((error) => console.error('Error updating jackpot on the backend:', error));
   }
     
-  
+    
   function updateScore(delta) {
+    
     // Update the score
-
     setPlayerBalance((prevBalance) => prevBalance + delta);
-
     // Make an API call to update the player's balance
     fetch('http://localhost:4000/updateBalance', {
       method: 'POST',
@@ -123,20 +122,29 @@ function Machine({username, userId, ...props}) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: userId,
-        winnings: delta,
+        userId,
+        delta
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to update player balance on the backend');
+        }
+      })
       .then((data) => {
         // Update the player's balance in the UI
         setPlayerBalance(data.balance);
       })
-      .catch((error) => console.error('Error updating player balance:', error));
+      .catch((error) => {
+        console.error('Error updating player balance:', error.message); // Log the error message
+      });
   }
   
+  
+
   useEffect(() => {
-    console.log(userId)
     checkWin();
   }, [checkWin]);
 

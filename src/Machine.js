@@ -54,7 +54,7 @@ function Machine({username, userId, ...props}) {
 
   function resetGame() {
     setJackpot(1000);
-    setPlayerBalance(500)
+    setPlayerBalance(100)
     setWinner(false);
     setMessage('You ran out of candy! Want me to stake you for another game?');
     setButtonText('Start game');
@@ -74,7 +74,7 @@ function Machine({username, userId, ...props}) {
       setButtonText('Try again?');
       updateJackpot(10);
       updateScore(-10);
-      if (playerBalance >= 0){
+      if (playerBalance -10 <= 0){
         resetGame()
       }
     }
@@ -112,9 +112,6 @@ function Machine({username, userId, ...props}) {
     
     
   function updateScore(delta) {
-    
-    // Update the score
-    setPlayerBalance((prevBalance) => prevBalance + delta);
     // Make an API call to update the player's balance
     fetch('http://localhost:4000/updateBalance', {
       method: 'POST',
@@ -123,7 +120,7 @@ function Machine({username, userId, ...props}) {
       },
       body: JSON.stringify({
         userId,
-        delta
+        delta,
       }),
     })
       .then((response) => {
@@ -134,13 +131,19 @@ function Machine({username, userId, ...props}) {
         }
       })
       .then((data) => {
-        // Update the player's balance in the UI
+        // Update the player's balance in the UI with the value from the backend
         setPlayerBalance(data.balance);
+  
+        // Check if the balance is less than 0, then reset the game
+        if (data.balance < 0) {
+          resetGame();
+        }
       })
       .catch((error) => {
-        console.error('Error updating player balance:', error.message); // Log the error message
+        console.error('Error updating player balance:', error.message);
       });
   }
+  
   
   
 

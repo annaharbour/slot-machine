@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-function Machine({user, userId, ...props}) {
+function Machine({username, userId, ...props}) {
   // Slots / Winner
   const symbols = ['🎃', '👻', '💀', '🦇', '🕷️','🧙‍♀️', '🧛', '🧟‍♂️','🍬','🤡','🔮','🪦'];
   const [a, setA] = useState('');
@@ -116,7 +116,6 @@ function Machine({user, userId, ...props}) {
 
     setPlayerBalance((prevBalance) => prevBalance + delta);
 
-
     // Make an API call to update the player's balance
     fetch('http://localhost:4000/updateBalance', {
       method: 'POST',
@@ -124,7 +123,7 @@ function Machine({user, userId, ...props}) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: user,
+        userId: userId,
         winnings: delta,
       }),
     })
@@ -137,6 +136,7 @@ function Machine({user, userId, ...props}) {
   }
   
   useEffect(() => {
+    console.log(userId)
     checkWin();
   }, [checkWin]);
 

@@ -7,7 +7,7 @@ import Machine from './Machine'
 export const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies();
-  const [userId, setUserId] = useState(null); // Initialize userId to null
+  const [userId, setUserId] = useState(null); 
 
   const [username, setUsername] = useState('');
 
@@ -31,8 +31,8 @@ export const Home = () => {
 
       const { status, userId, username } = data;
       if (status) {
-        setUsername(username); // Set the username in the state
-        setUserId(userId); // Set the userId in the state
+        setUsername(username); 
+        setUserId(userId); 
       } else {
         removeCookie('token');
         navigate('/signin');

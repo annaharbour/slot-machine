@@ -13,7 +13,6 @@ function Machine({username, userId, ...props}) {
   const [playerBalance, setPlayerBalance] = useState(100)
 
   useEffect(() => {
-    // Fetch the current jackpot value from the backend
     fetch('http://localhost:4000/jackpot')
       .then((response) => response.json())
       .then((data) => setJackpot(data.value))
@@ -112,7 +111,6 @@ function Machine({username, userId, ...props}) {
     
     
   function updateScore(delta) {
-    // Make an API call to update the player's balance
     fetch('http://localhost:4000/updateBalance', {
       method: 'POST',
       headers: {
@@ -131,10 +129,8 @@ function Machine({username, userId, ...props}) {
         }
       })
       .then((data) => {
-        // Update the player's balance in the UI with the value from the backend
         setPlayerBalance(data.balance);
   
-        // Check if the balance is less than 0, then reset the game
         if (data.balance < 0) {
           resetGame();
         }

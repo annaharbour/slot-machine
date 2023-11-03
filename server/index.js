@@ -7,7 +7,7 @@ require("dotenv").config();
 const authRoute = require("./routes/AuthRoute");
 const JackpotRoute = require('./routes/JackpotRoute')
 const Balance = require('./routes/Balance')
-const { MONGO_URL, PORT } = process.env;
+// const { MONGO_URL, PORT } = process.env;
 
 mongoose
   .connect(MONGO_URL, {
@@ -19,7 +19,7 @@ mongoose
 
 // app.listen(PORT, () => {
 app.listen(process.env.PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  console.log(`Server is listening on port ${process.env.PORT}`);
 });
 
 app.use(

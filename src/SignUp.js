@@ -23,7 +23,7 @@ export const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await axios.post("http://localhost:4000/signup", 
+            const {data} = await axios.post("https://spooky-slot-machine.onrender.com/signup", 
             {
                 ...inputValue
             },

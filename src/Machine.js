@@ -13,7 +13,7 @@ function Machine({username, userId, ...props}) {
   const [playerBalance, setPlayerBalance] = useState(100)
 
   useEffect(() => {
-    fetch('http://localhost:4000/jackpot')
+    fetch('https://spooky-slot-machine.onrender.com/jackpot')
       .then((response) => response.json())
       .then((data) => setJackpot(data.value))
       .catch((error) => console.error('Error fetching jackpot value:', error));
@@ -89,7 +89,7 @@ function Machine({username, userId, ...props}) {
   function updateJackpot(delta) {
     setJackpot((prevJackpot) => prevJackpot + delta);
   
-    fetch('http://localhost:4000/updatejackpot', {
+    fetch('https://spooky-slot-machine.onrender.com/updatejackpot', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function Machine({username, userId, ...props}) {
     
     
   function updateScore(delta) {
-    fetch('http://localhost:4000/updateBalance', {
+    fetch('https://spooky-slot-machine.onrender.com/updateBalance', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ export const Home = () => {
       }
     try {
       const { data } = await axios.post(
-        'http://localhost:4000',
+        'https://spooky-slot-machine.onrender.com',
         {},
         { withCredentials: true }
       );

@@ -10,7 +10,7 @@ const Balance = require('./routes/Balance')
 // const { MONGO_URL, PORT } = process.env;
 
 mongoose
-  .connect(MONGO_URL, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -25,7 +25,7 @@ app.listen(process.env.PORT, () => {
 app.use(
   cors({
     // origin: ["http://localhost:3000"],
-    origin: ["https://spooky-slot-machine.onrender.com/"],
+    origin: ["https://spooky-slot-machine.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
